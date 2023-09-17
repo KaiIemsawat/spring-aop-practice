@@ -26,4 +26,9 @@ public class DemoLoginAspect {
         System.out.println("============= >>> Executing @Before advice on addAccount() with specific package <<< =============");
     }
 
+    @Before("execution (public void add*())")
+    public void beforeAddWithWildcard() {
+        System.out.println("============= >>> Executing @Before advice on add*() <<< =============");
+    }
+
 }
