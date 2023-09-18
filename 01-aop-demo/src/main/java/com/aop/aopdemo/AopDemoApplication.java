@@ -1,8 +1,6 @@
 package com.aop.aopdemo;
 
-import com.aop.aopdemo.dao.AccountDAO;
-import com.aop.aopdemo.dao.MembershipDAO;
-import com.aop.aopdemo.dao.WildcardDAO;
+import com.aop.aopdemo.dao.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,15 +15,25 @@ public class AopDemoApplication {
 
 	@Bean
 	// Spring Boot will automatically inject the dependency because @Bean annotation
-	public CommandLineRunner commandLineRunner(AccountDAO theAccountDAO, MembershipDAO theMembershipDAO, WildcardDAO theWildcard) {
+	public CommandLineRunner commandLineRunner(
+			AccountDAO theAccountDAO,
+			MembershipDAO theMembershipDAO,
+			WildcardDAO theWildcard,
+			BooleanAccountDAO theBooleanAccount,
+			AccountParameterDAO theAccountParameter) {
 		return runner -> {
 
-			demoBeforeAdvice(theAccountDAO, theMembershipDAO, theWildcard);
+			demoBeforeAdvice(theAccountDAO, theMembershipDAO, theWildcard, theBooleanAccount, theAccountParameter);
 
 		};
 	}
 
-	private void demoBeforeAdvice(AccountDAO theAccountDAO, MembershipDAO theMembershipDAO, WildcardDAO theWildcard) {
+	private void demoBeforeAdvice(
+			AccountDAO theAccountDAO,
+			MembershipDAO theMembershipDAO,
+			WildcardDAO theWildcard,
+			BooleanAccountDAO theBooleanAccount,
+			AccountParameterDAO theAccountParameter) {
 //		Call the business method
 		theAccountDAO.addAccount();
 
@@ -33,6 +41,11 @@ public class AopDemoApplication {
 		theMembershipDAO.addAccount();
 
 		theWildcard.addWithWildcard();
+
+		theBooleanAccount.addAccount();
+
+		Account testAccount = new Account();
+		theAccountParameter.addAccount(testAccount, true);
 	}
 
 }
