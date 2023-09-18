@@ -52,46 +52,27 @@ public class DemoLoginAspect {
         System.out.println("============= >>> Executing @Before advice on add*(Parameter parameter) <<< =============");
     }
 
+    /* -- @Pointcut -- */
+//    Pointcuts have been moved to AopExpressions
 
-//    1 - Create pointcut declaration. (In this case we cut the declaration from @Before from below method below)
-//    2 - Replace the declaration for the method below with this method name
-    @Pointcut("execution (public * com.aop.aopdemo.dao.*.*())")
-    private void forDaoPackage() {
-    }
-
-//    Create pointcut for getter methods
-    @Pointcut("execution (public * com.aop.aopdemo.dao.*.get*())")
-    private void getter(){}
-
-
-//    Create pointcut for setter methods
-    @Pointcut("execution (public * com.aop.aopdemo.dao.*.set*())")
-    private void setter(){}
-
-//    Create pointcut : include package -- exclude getter / setter !!!!
-    @Pointcut("forDaoPackage() && !(getter() || setter())")
-    private void forDaoPackageNoGetterSetter(){}
 
 //    access modifier / return type / package / class (any class in this case) / method (any method in this case) / parameter (any parameter in this case)
 //    public / * / com.aop.aopdemo.dao/.*/.*/(..))
-    @Before("forDaoPackage()")
+    @Before("com.aop.aopdemo.aspect.AopExpressions.forDaoPackage()")
     public void beforeAddAccountInSpecificPackage() {
         System.out.println("============= >>> Executing @Before advice on anyClass and anyMethod(). In a specific package <<< =============");
     }
 
-    @Before("forDaoPackage() && !(getter() || setter())")
+    @Before("com.aop.aopdemo.aspect.AopExpressions.forDaoPackage() && !(com.aop.aopdemo.aspect.AopExpressions.getter() || com.aop.aopdemo.aspect.AopExpressions.setter())")
     public void beforeAddAccountInPackageNoGetterSetter() {
         System.out.println("============= >>> Executing @Before advice on anyClass and anyMethod(). In a specific package. No Getter / Setter <<< =============");
     }
 
-//    With pointcut, we can use it in multiple locations
-    @Before("forDaoPackage()")
-    public void performApiAnalytics() {
-        System.out.println("============= >>> Performing API analytics <<< =============");
-    }
+//    performApiAnalytics() Has been moved to ApiAnalyticAspect
+
+//    logToCloudAsync() Has been moved to CloudLogAsyncAspect
 
 
-
-
-
+    /* Once refactored, 'paths need to be added to @Before() or @After */
+//    For example -->     @Before("com.aop.aopdemo.aspect.AopExpressions.forDaoPackage() && !(com.aop.aopdemo.aspect.AopExpressions.getter() || com.aop.aopdemo.aspect.AopExpressions.setter())")
 }

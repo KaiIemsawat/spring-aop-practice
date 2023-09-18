@@ -28,9 +28,6 @@ public class AopDemoApplication {
 		};
 	}
 
-
-
-
 	private void demoBeforeAdvice(
 			AccountDAO theAccountDAO,
 			MembershipDAO theMembershipDAO,
