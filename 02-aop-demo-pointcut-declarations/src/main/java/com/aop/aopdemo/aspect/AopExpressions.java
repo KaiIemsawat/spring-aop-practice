@@ -2,10 +2,12 @@ package com.aop.aopdemo.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Aspect // If there is only @Pointcuts, then @Aspect is optional. Only require if there is advice (@Before / @After)
 @Component
+@Order(4) // Lower number has higher priority
 public class AopExpressions {
 
 //    1 - Create pointcut declaration. (In this case we cut the declaration from @Before from below method below)
