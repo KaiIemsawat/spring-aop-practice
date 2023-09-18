@@ -11,4 +11,9 @@ public class BooleanAccountDaoImpl implements BooleanAccountDAO {
         return true;
     }
 
+    @Override
+    public void goToSleep() {
+        System.out.println(getClass() + " : DOING DB WORK : IN GO_TO_SLEEP()\n");
+    }
+
 }

@@ -36,6 +36,7 @@ public class AopDemoApplication {
 			AccountParameterDAO theAccountParameter) {
 //		Call the business method
 		theAccountDAO.addAccount();
+		theAccountDAO.doWork();
 
 //		Call the membership method
 		theMembershipDAO.addAccount();
@@ -43,6 +44,7 @@ public class AopDemoApplication {
 		theWildcard.addWithWildcard();
 
 		theBooleanAccount.addAccount();
+		theBooleanAccount.goToSleep();
 
 		Account testAccount = new Account();
 		theAccountParameter.addAccount(testAccount, true);

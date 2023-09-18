@@ -51,5 +51,12 @@ public class DemoLoginAspect {
         System.out.println("============= >>> Executing @Before advice on add*(Parameter parameter) <<< =============");
     }
 
+//    access modifier / return type / package / class (any class in this case) / method (any method in this case) / parameter (any parameter in this case)
+//    public / * / com.aop.aopdemo.dao/.*/.*/(..))
+    @Before("execution (public * com.aop.aopdemo.dao.*.*())")
+    public void beforeAddAccountInSpecificPackage() {
+        System.out.println("============= >>> Executing @Before advice on anyClass and anyMethod(). In a specific package <<< =============");
+    }
+
 
 }
