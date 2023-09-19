@@ -26,9 +26,29 @@ public class AopDemoApplication {
 		return runner -> {
 
 //			demoBeforeAdvice(theAccountDAO, theMembershipDAO, theWildcard, theBooleanAccount, theAccountParameter);
-			demoAfterReturningAdviceDAO(theAccountDAO);
-
+//			demoAfterReturningAdviceDAO(theAccountDAO);
+			demoAfterThrowingAdvice(theAccountDAO);
 		};
+	}
+
+	private void demoAfterThrowingAdvice(AccountDAO theAccountDAO) {
+//		Call method to find the accounts
+		List<Account> theAccounts = null;
+
+		try {
+//			add a boolean flag to simulate exceptions
+			boolean tripWire = true;
+			theAccounts = theAccountDAO.findAccounts(tripWire);
+		}
+		catch (Exception exception) {
+			System.out.println("\n\n--------------- >>> Main app - Caught an Exception : " + exception + " <<< ---------------");
+		}
+
+//		Display the accounts
+		System.out.println("\n\n--------------- >>> Main app - Demo after Advice <<< ---------------");
+		System.out.println("--------");
+		System.out.println(theAccounts);
+		System.out.println("--------");
 	}
 
 	private void demoAfterReturningAdviceDAO(AccountDAO theAccountDAO) {

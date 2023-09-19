@@ -2,21 +2,35 @@ package com.aop.aopdemo.aspect;
 
 import com.aop.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Locale;
 
 @Aspect
 @Component
 @Order(2) // Lower number has higher priority
 public class DemoLoginAspect {
+
+    @AfterThrowing(
+            pointcut = "execution (* com.aop.aopdemo.dao.AccountDAO.findAccounts(..))",
+            throwing = "theException"
+//            throwing = "thisValue" < = > (JoinPoint theJointPoint, Throwable thisValue)
+    )
+    public void afterThrowingFindAccountsAdvice(JoinPoint theJoinPoint, Throwable theException) {
+//      Print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n--------- >>> Executing @AfterThrowing on method : " + method + " <<< ---------");
+
+//        log the exception
+        System.out.println("\n--------- >>> The EXCEPTION is : " + theException + " <<< ---------");
+
+    }
+
 
 //    Add a new Advice for @AfterReturning on the findAccounts method
     @AfterReturning(
@@ -34,6 +48,25 @@ public class DemoLoginAspect {
 //      Print out the results of the method call
         System.out.println("\n--------- >>> Result is  : " + result + " <<< ---------");
 
+//        Post-process the data / modify
+
+//        convert the account names to uppercase
+        convertAccountNameToUppercase(result);
+        System.out.println("--------- >>> Result is  : " + result + " <<< ---------");
+    }
+
+    private void convertAccountNameToUppercase(List<Account> result) {
+
+//        loop through accounts
+        for(Account eachAccount : result) {
+            String uppercaseName = eachAccount.getName().toUpperCase();
+
+            eachAccount.setName(uppercaseName);
+        }
+
+//        get uppercase version of names
+
+//        update the names of the accounts
     }
 
 

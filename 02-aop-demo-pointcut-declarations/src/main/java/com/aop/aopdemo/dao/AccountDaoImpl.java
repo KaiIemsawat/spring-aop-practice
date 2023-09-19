@@ -15,6 +15,17 @@ public class AccountDaoImpl implements AccountDAO{
 
     @Override
     public List<Account> findAccounts() {
+        return findAccounts(false);
+    }
+
+    @Override
+    public List<Account> findAccounts(boolean tripWire) {
+
+//        simulate an exception
+        if (tripWire) {
+            throw new RuntimeException(" Trip Wire has set to true..!");
+        }
+
         List<Account> accounts = new ArrayList<>();
 
         Account acc1 = new Account("Titann", "999");
