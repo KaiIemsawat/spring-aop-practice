@@ -1,8 +1,14 @@
 package com.aop.aopdemo.dao;
 
-public interface AccountDAO {
-    void addAccount();
+import com.aop.aopdemo.Account;
 
+import java.util.List;
+
+public interface AccountDAO {
+
+    List<Account> findAccounts();
+
+    void addAccount();
     boolean doWork();
 
     public String getName();

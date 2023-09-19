@@ -6,6 +6,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class AopDemoApplication {
 
@@ -23,9 +25,21 @@ public class AopDemoApplication {
 			AccountParameterDAO theAccountParameter) {
 		return runner -> {
 
-			demoBeforeAdvice(theAccountDAO, theMembershipDAO, theWildcard, theBooleanAccount, theAccountParameter);
+//			demoBeforeAdvice(theAccountDAO, theMembershipDAO, theWildcard, theBooleanAccount, theAccountParameter);
+			demoAfterReturningAdviceDAO(theAccountDAO);
 
 		};
+	}
+
+	private void demoAfterReturningAdviceDAO(AccountDAO theAccountDAO) {
+//		Call method to find the accounts
+		List<Account> theAccounts = theAccountDAO.findAccounts();
+
+//		Display the accounts
+		System.out.println("\n\n============= >>> Main app - Demo after return <<< =============");
+		System.out.println("--------");
+		System.out.println(theAccounts);
+		System.out.println("--------");
 	}
 
 	private void demoBeforeAdvice(

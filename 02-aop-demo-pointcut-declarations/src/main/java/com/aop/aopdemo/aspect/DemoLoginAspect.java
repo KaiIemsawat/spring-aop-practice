@@ -2,6 +2,7 @@ package com.aop.aopdemo.aspect;
 
 import com.aop.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -10,10 +11,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Aspect
 @Component
 @Order(2) // Lower number has higher priority
 public class DemoLoginAspect {
+
+//    Add a new Advice for @AfterReturning on the findAccounts method
+    @AfterReturning(
+            pointcut = "execution (* com.aop.aopdemo.dao.AccountDAO.findAccounts(..))",
+//            This 'com.aop.aopdemo.dao.AccountDAO.findAccounts(..)' need to match with
+//            'List<Account> theAccounts = theAccountDAO.findAccounts()' in -> 'AopDemoApplication'
+            returning = "result"
+            // returning = 'thisValue' need to be match with (JoinPoint theJoinPoint, List<Account> 'thisValue') below
+    )
+    public void afterReturningFindAccountsAdvice(JoinPoint theJoinPoint, List<Account> result) {
+//      Print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n--------- >>> Executing @AfterReturning on method : " + method + " <<< ---------");
+
+//      Print out the results of the method call
+        System.out.println("\n--------- >>> Result is  : " + result + " <<< ---------");
+
+    }
+
 
 //    This is where we add all the related advices for logging
 
