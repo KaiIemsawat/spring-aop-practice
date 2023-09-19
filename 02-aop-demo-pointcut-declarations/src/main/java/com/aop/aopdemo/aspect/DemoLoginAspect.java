@@ -1,8 +1,11 @@
 package com.aop.aopdemo.aspect;
 
+import com.aop.aopdemo.Account;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -50,8 +53,30 @@ public class DemoLoginAspect {
 //    If replace '..' with something like 'String',
 //    this method with fire if conditions above meet but only with 'Account' and 'String' types of arguments
     @Before("execution (public * add*(com.aop.aopdemo.Account, ..))")
-    public void beforeAddWithParameter() {
+    public void beforeAddWithParameter(JoinPoint theJoinPoint) {
         System.out.println("============= >>> Executing @Before advice on add*(Parameter parameter) <<< =============");
+
+        //        display method signature
+        MethodSignature methodSignature = (MethodSignature) theJoinPoint.getSignature();
+        System.out.println("Method : ========= > " + methodSignature);
+
+//        display method arguments
+
+//        get args
+        Object[] args = theJoinPoint.getArgs();
+
+//        loop through args
+        for (Object eachArg : args) {
+            System.out.println(eachArg);
+
+            if (eachArg instanceof Account) {
+//                downcast and print Account specific stuff
+                Account theAccount = (Account) eachArg;
+
+                System.out.println("Account name : ========== > " + theAccount.getName());
+                System.out.println("Account level : ========== > " + theAccount.getLevel());
+            }
+        }
     }
 
     /* -- @Pointcut -- */

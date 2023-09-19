@@ -47,6 +47,8 @@ public class AopDemoApplication {
 		theBooleanAccount.goToSleep();
 
 		Account testAccount = new Account();
+		testAccount.setName("Zukkii");
+		testAccount.setLevel("DOG_GOD");
 		theAccountParameter.addAccount(testAccount, true);
 
 
