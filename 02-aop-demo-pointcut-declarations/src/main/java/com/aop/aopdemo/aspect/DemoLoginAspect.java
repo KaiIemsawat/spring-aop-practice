@@ -2,6 +2,7 @@ package com.aop.aopdemo.aspect;
 
 import com.aop.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,46 @@ import java.util.Locale;
 @Order(2) // Lower number has higher priority
 public class DemoLoginAspect {
 
+    @Around("execution (* com.aop.aopdemo.services.*.getFortune(..))")
+    public Object aroundGetFortune( ProceedingJoinPoint theProceedingJP) throws Throwable {
+
+//      Print out which method we are advising on
+        String method = theProceedingJP.getSignature().toShortString();
+        System.out.println("\n********* >>> Executing @Around on method : " + method + " <<< *********");
+
+//        get begin timestamp
+        long begin = System.currentTimeMillis();
+
+//        execute the method
+        Object resultObject = null;
+        try {
+            resultObject = theProceedingJP.proceed();
+        }
+        catch (Exception exception) {
+//            log the exception
+            System.out.println(exception.getMessage());
+//            display a custom message
+            resultObject = "This is a custom message in try / catch in 'aroundGetFortune()'";
+        }
+
+//        get end timestamp
+        long end = System.currentTimeMillis();
+
+//        complete duration and display it
+        long duration = end - begin;
+        System.out.println("\nDURATION : ------------------ >  " + duration / 1000 + " SECONDS");
+
+        return resultObject;
+    }
+
+
+    @After("execution (* com.aop.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFinallyFindAccountsAdvice(JoinPoint theJoinPoint) {
+//      Print out which method we are advising on
+        String method = theJoinPoint.getSignature().toShortString();
+        System.out.println("\n********* >>> Executing @After (finally) on method : " + method + " <<< *********");
+    }
+
     @AfterThrowing(
             pointcut = "execution (* com.aop.aopdemo.dao.AccountDAO.findAccounts(..))",
             throwing = "theException"
@@ -28,9 +69,7 @@ public class DemoLoginAspect {
 
 //        log the exception
         System.out.println("\n--------- >>> The EXCEPTION is : " + theException + " <<< ---------");
-
     }
-
 
 //    Add a new Advice for @AfterReturning on the findAccounts method
     @AfterReturning(

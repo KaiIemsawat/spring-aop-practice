@@ -23,7 +23,7 @@ public class AccountDaoImpl implements AccountDAO{
 
 //        simulate an exception
         if (tripWire) {
-            throw new RuntimeException(" Trip Wire has set to true..!");
+            throw new RuntimeException(" Trip Wire has set to " + tripWire + "..!");
         }
 
         List<Account> accounts = new ArrayList<>();
