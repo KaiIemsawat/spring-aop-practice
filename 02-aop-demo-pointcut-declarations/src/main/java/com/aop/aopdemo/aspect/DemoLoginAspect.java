@@ -35,8 +35,9 @@ public class DemoLoginAspect {
         catch (Exception exception) {
 //            log the exception
             System.out.println(exception.getMessage());
-//            display a custom message
-            resultObject = "This is a custom message in try / catch in 'aroundGetFortune()'";
+
+//            rethrow exception
+            throw exception;
         }
 
 //        get end timestamp
